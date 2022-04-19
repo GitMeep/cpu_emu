@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "/usr/local/include/",
+                "/usr/local/include/mongocxx/v_noabi",
+                "/usr/local/include/bsoncxx/v_noabi",
+                "/usr/local/include/libmongoc-1.0",
+                "/usr/local/include/libbson-1.0",
+                "/usr/include/",
+                "./src/"
+            ],
+            "defines": [
+                "BOT_VERSION=\"debug\"",
+                "DEBUG"
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
