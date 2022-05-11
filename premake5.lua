@@ -8,19 +8,13 @@ project "cpuemu"
     cppdialect "C++17"
     toolset "gcc"
 
-    linkoptions { '-static-libstdc++', '-static-libgcc' }
     files { "./src/**.h", "./src/**.cpp" }
-    defines { "BOT_VERSION=\"2.0.1\"" }
     includedirs { 
         "/usr/local/include/",
-        "/usr/include/",
-        "./src/"
-    }
-    links {
+        "/usr/include/"
     }
 
     filter "configurations:Debug"
-        buildoptions { "-rdynamic" }
         defines { "DEBUG" }
         symbols "On"
 

@@ -23,36 +23,20 @@ enum Register {
   R_MO    // 0101
 };
 
+// tested: LDI, LDM, ADR, ADM, DIR, DIM, PCR, HALT
+
 #define OPC(O) O << 4
 
 byte memoryProgram[256] = {
-  OPC(LDI) | R_A, 1,
-  OPC(LDI) | R_B, 1,
-  OPC(ADR) | R_OUT,
-  OPC(ADM), 128,
-  OPC(ADR) | R_A,
-  OPC(ADR) | R_OUT,
-  OPC(ADM), 128,
-  OPC(ADR) | R_B,
-  OPC(ADR) | R_OUT,
-  OPC(ADM), 128,
-  OPC(ADR) | R_A,
-  OPC(ADR) | R_OUT,
-  OPC(ADM), 128,
-  OPC(ADR) | R_B,
-  OPC(ADR) | R_OUT,
-  OPC(ADM), 128,
-  OPC(ADR) | R_A,
-  OPC(ADR) | R_OUT,
-  OPC(ADM), 128,
-  OPC(ADR) | R_B,
-  OPC(ADR) | R_OUT,
-  OPC(ADM), 128,
-  OPC(ADR) | R_A,
-  OPC(ADR) | R_OUT,
-  OPC(ADM), 128,
+  OPC(LDI) | R_A, 200,
+  OPC(LDM) | R_B, 10,
+  OPC(DIR) | R_OUT,
+  OPC(DIM), 128,
+  OPC(ST) | R_A, 129, 
   
-  OPC(HALT)
+  OPC(HALT),
+
+  19
 };
 
 // kontrol signaler
@@ -71,8 +55,6 @@ const uint16_t RST    = 0b0000010000000000; // Program counter reset (til hvad d
 const uint16_t IRIN   = 0b0000100000000000; // Instruction register in
 const uint16_t CDOUT  = 0b0001000000000000; // Control data register out
 const uint16_t OUTIN  = 0b0010000000000000; // Output register in
-
-// DIM
 
 const uint16_t instructionSteps[][5] = {
   { // 0000: LDI
@@ -137,7 +119,7 @@ const uint8_t numSteps[] = {
   1, // ADR
   1, // DIR
   3, // ADM
-  2, // DIM
+  3, // DIM
   1, // PCR
   1  // HALT
 };

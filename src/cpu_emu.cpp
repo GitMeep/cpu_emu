@@ -15,7 +15,7 @@ int main() {
 
     std::string a;
     if(!booting) {
-      DELAY(100);
+      DELAY(10);
       //std::cin.get();
     }
   }
