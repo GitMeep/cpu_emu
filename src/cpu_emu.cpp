@@ -1,12 +1,16 @@
 #include <iostream>
+#include <string>
 
-#include "ram.h"
-#include "alu.h"
+#include "cpu.h"
+#include "control.h"
 
 int main() {
-    std::cout << "Welcome!" << std::endl;
+  while(true) {
+    CPU::halfClock();
 
-    print_ram();
-
-    return 0;
+    std::string a;
+    if(!booting) {
+      std::cout << (int)CPU::getRegister(CPU::R_OUT) << std::endl;
+    }
+  }
 }
