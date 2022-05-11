@@ -20,7 +20,7 @@ endif
 
 RESCOMP = windres
 TARGETDIR = bin
-TARGET = $(TARGETDIR)/cpuemu.exe
+TARGET = $(TARGETDIR)/cpuemu
 INCLUDES += -I/usr/local/include -I/usr/include -Isrc
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
