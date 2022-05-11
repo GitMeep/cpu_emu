@@ -1,8 +1,13 @@
 #include <iostream>
 #include <string>
 
+#include <chrono>
+#include <thread>
+
 #include "cpu.h"
 #include "control.h"
+
+#define DELAY(ms) std::this_thread::sleep_for(std::chrono::milliseconds(ms))
 
 int main() {
   while(true) {
@@ -10,7 +15,8 @@ int main() {
 
     std::string a;
     if(!booting) {
-      std::cout << (int)CPU::getRegister(CPU::R_OUT) << std::endl;
+      DELAY(100);
+      //std::cin.get();
     }
   }
 }

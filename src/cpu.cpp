@@ -69,9 +69,11 @@ void CPU::halfClock() {
     if(signals.MIN)   memory[registers[R_AR]] = busValue;
     if(signals.ARIN)  registers[R_AR]         = busValue;
     if(signals.IRIN)  registers[R_IR]         = busValue;
-    if(signals.OUTIN) registers[R_OUT]        = busValue;
+    if(signals.OUTIN) {registers[R_OUT]       = busValue; std::cout << (int)registers[R_OUT] << std::endl; }
 
     if(clockEdge && signals.PCEN) registers[R_PC]++;
+
+    if(signals.PCR) CPU::resetPC();
 
     // Control signales are updated after data has been moved around on the A edge. In the real world
     // control logic and components would receive the A edge at the same time, hopefully latching data

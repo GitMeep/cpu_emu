@@ -1,5 +1,5 @@
 bin/
 obj/
 
-cpuemu.make
 Makefile
+cpuemu.make
