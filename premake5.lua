@@ -7,6 +7,7 @@ project "cpuemu"
     targetdir "bin"
     cppdialect "C++17"
     toolset "gcc"
+	architecture "x86_64"
 
     files { "./src/**.h", "./src/**.cpp" }
     includedirs { 

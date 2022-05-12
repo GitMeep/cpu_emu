@@ -1,11 +1,13 @@
+# build directories
 bin/
 obj/
-.vs/
 
+# gmake
 Makefile
 cpuemu.make
+
+# vs
 *.sln
-
 *.vcxproj
-
 *.user
+.vs/
