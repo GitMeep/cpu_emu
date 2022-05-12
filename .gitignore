@@ -1,5 +1,11 @@
 bin/
 obj/
+.vs/
 
 Makefile
 cpuemu.make
+*.sln
+
+*.vcxproj
+
+*.user
