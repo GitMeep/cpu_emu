@@ -23,20 +23,25 @@ enum Register {
   R_MO    // 0101
 };
 
-// tested: LDI, LDM, ADR, ADM, DIR, DIM, PCR, HALT
+// tested: LDI, LDM, ADR, ADM, DIR, DIM, PCR, HALT, ST
 
 #define OPC(O) O << 4
 
+// program to calculate fibonacci sequence (well, at least until the result overflows)
 byte memoryProgram[256] = {
-  OPC(LDI) | R_A, 200,
-  OPC(LDM) | R_B, 10,
-  OPC(DIR) | R_OUT,
-  OPC(DIM), 128,
-  OPC(ST) | R_A, 129, 
+  OPC(LDM) | R_OUT, 15,
+  OPC(LDM) | R_OUT, 16,
+  OPC(LDM) | R_A, 16,
+  OPC(LDM) | R_B, 15,
+  OPC(ADM), 15,
+  OPC(ADR) | R_B,
+  OPC(ADM), 16,
+  OPC(ADR) | R_A,
   
-  OPC(HALT),
+  OPC(PCR),
 
-  19
+  1,
+  1
 };
 
 // kontrol signaler
@@ -72,9 +77,11 @@ const uint16_t instructionSteps[][5] = {
   },
 
   { // 0010: ST
-    PCOUT | ARIN,       // 1B
-    0,                  // 1A
-    MIN | PCEN          // 2B
+    PCOUT | ARIN,         // 1B
+    0,                    // 1A
+    MOUT | ARIN | PCEN,   // 2B
+    0,                    // 2A
+    MIN                   // 3B
   },
 
   { // 0011: ADR
@@ -115,7 +122,7 @@ const uint16_t instructionSteps[][5] = {
 const uint8_t numSteps[] = {
   2, // LDI
   3, // LDM
-  2, // ST
+  3, // ST
   1, // ADR
   1, // DIR
   3, // ADM
@@ -246,15 +253,15 @@ void executeInstruction() {
           case LDI:
             controlWord |= registersIn[operand];
             break;
-          case ST:
-            controlWord |= registersOut[operand];
-            break;
         }
         break;
       case 2: // clock number 2
         switch(instruction) {
           case LDM:
             controlWord |= registersIn[operand];
+            break;
+          case ST:
+            controlWord |= registersOut[operand];
             break;
         }
         break;

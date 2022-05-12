@@ -15,8 +15,10 @@ int main() {
 
     std::string a;
     if(!booting) {
-      DELAY(10);
-      //std::cin.get();
+      if(fetching) {
+        DELAY(10);
+        //std::cin.get();
+      }
     }
   }
 }
