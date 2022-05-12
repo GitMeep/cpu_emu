@@ -41,5 +41,4 @@ protected:
 
   // ram
   static uint8_t memory[MEM_SIZE];
-
 };

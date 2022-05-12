@@ -23,12 +23,10 @@ enum Register {
   R_MO    // 0101
 };
 
-// tested: LDI, LDM, ADR, ADM, DIR, DIM, PCR, HALT, ST
-
 #define OPC(O) O << 4
 
 // loades ind dynamisk i emulatoren
-uint8_t memoryProgram[256] = {0};
+uint8_t memoryProgram[256];
 
 // kontrol signaler
 const uint16_t AOUT   = 0b0000000000000001; // Address register out
@@ -179,6 +177,8 @@ void boot() {
     writeControlWord(0);
     clockNumber++;
 
+    if(clockNumber >= 2) clockNumber = 0;
+
     if(programIndex >= 255) { // vi er nu færdige med at skrive alle bytes til hukmmelsen, nulstil boot tilstandens variabler og reset program counter
       programIndex = 0;
       clockNumber = 0;
@@ -211,7 +211,7 @@ void fetch() {
   } else { // clockADetected
     writeControlWord(0);
     clockNumber++;
-    if(clockNumber == 2) {
+    if(clockNumber >= 2) {
       clockNumber = 0;
       fetching = false;
     }
@@ -222,27 +222,27 @@ void executeInstruction() {
   uint16_t controlWord;
   byte instruction = readInstruction();
   byte operand = instruction & 0b00001111;
-  instruction = (instruction >> 4) & 0b00001111;
+  byte opcode = (instruction >> 4) & 0b00001111;
   if(clockBDetected) {
-    controlWord = instructionSteps[instruction][2 * clockNumber];
+    controlWord = instructionSteps[opcode][2 * clockNumber];
     switch(clockNumber) {
-      case 0: // clock number 0
-        switch(instruction) {
+      case 0:
+        switch(opcode) {
           case ADR:
           case DIR:
             controlWord |= registersIn[operand];
             break;
         }
         break;
-      case 1: // clock number 1
-        switch(instruction) {
+      case 1:
+        switch(opcode) {
           case LDI:
             controlWord |= registersIn[operand];
             break;
         }
         break;
-      case 2: // clock number 2
-        switch(instruction) {
+      case 2:
+        switch(opcode) {
           case LDM:
             controlWord |= registersIn[operand];
             break;
@@ -254,17 +254,17 @@ void executeInstruction() {
     }
     writeControlWord(controlWord);
   } else { // clockADetected
-    if(clockNumber + 1 == numSteps[instruction]) {
+    if(clockNumber + 1 == numSteps[opcode]) {
       // instruktionen er færdig, fetch næste
       clockNumber = 0;
       fetching = true;
-      if(instruction == HALT) {
+      if(opcode == HALT) {
         halted = true;
       }
       return;
     }
    
-    controlWord = instructionSteps[instruction][2 * clockNumber + 1];
+    controlWord = instructionSteps[opcode][2 * clockNumber + 1];
     writeControlWord(controlWord);
 
     clockNumber++;
