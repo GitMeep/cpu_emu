@@ -9,9 +9,9 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/cpuemu",
-            "args": [],
+            "args": ["fibonacci.bin"],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/bin",
+            "cwd": "${workspaceFolder}",
             "environment": [
                 {"name": "LD_LIBRARY_PATH", "value": "/usr/local/lib"}
             ],

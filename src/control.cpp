@@ -27,22 +27,8 @@ enum Register {
 
 #define OPC(O) O << 4
 
-// program to calculate fibonacci sequence (well, at least until the result overflows)
-byte memoryProgram[256] = {
-  OPC(LDM) | R_OUT, 15,
-  OPC(LDM) | R_OUT, 16,
-  OPC(LDM) | R_A, 16,
-  OPC(LDM) | R_B, 15,
-  OPC(ADM), 15,
-  OPC(ADR) | R_B,
-  OPC(ADM), 16,
-  OPC(ADR) | R_A,
-  
-  OPC(PCR),
-
-  1,
-  1
-};
+// loades ind dynamisk i emulatoren
+uint8_t memoryProgram[256] = {0};
 
 // kontrol signaler
 const uint16_t AOUT   = 0b0000000000000001; // Address register out
